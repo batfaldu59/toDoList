@@ -1,8 +1,15 @@
-<h1>Ma TODOLIST</h1>
+<h1>Liste des tâches à réaliser</h1>
 
-<ul>
-  <li>Projet 1</li>
-  <li>Projet 2</li>
-  <li>Projet 3</li>
-  <li>Projet 4</li>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let toDo of toDos, let i = index">
+    <div [ngClass]="{encours:toDo.todoStatus, terminee:!toDo.todoStatus}">
+      <a [href]="toDo.image">
+        <img [src]="toDo.image" alt="image">
+      </a>
+      {{toDo.toDOName}}
+      <button class="btn btn-primary" [disabled]="toDo.todoStatus" (click)="onChangeStatus(i)">En cours</button>
+      <button class="btn btn-success" [disabled]="!toDo.todoStatus" (click)="onChangeStatus(i)">Terminer</button>
+      <input class="form-control" type="text" [(ngModel)]="toDo.toDOName">
+    </div>
+  </li>
 </ul>
