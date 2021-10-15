@@ -1,4 +1,6 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
+import {TodoService} from "../services/todo.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -7,31 +9,27 @@ import {Component} from "@angular/core";
   styleUrls: ["./todo.component.css"]
 })
 
-export class TodoComponent{
-  toDos = [
-    {
-      toDOName: "Projet 1",
-      todoStatus: true,
-      image: "http://placehold.it/150"
-    },
-    {
-      toDOName: "Projet 2",
-      todoStatus: false,
-      image: "http://placehold.it/150"
-    },
-    {
-      toDOName: "Projet 3",
-      todoStatus: true,
-      image: "http://placehold.it/150"
-    },
-    {
-      toDOName: "Projet 4",
-      todoStatus: false,
-      image: "http://placehold.it/150"
-    }
-  ];
+export class TodoComponent implements OnInit{
+  todos;
+  today;
+  constructor(private todoService: TodoService,
+              private route: Router) {
+  }
+
+  ngOnInit() {
+    this.today = this.todoService.today;
+    this.todos = this.todoService.todos;
+  }
 
   onChangeStatus(i: number) {
-    this.toDos[i].todoStatus = !this.toDos[i].todoStatus;
+    this.todoService.onChangeStatus(i);
+  }
+
+  onChangeModif(i: number) {
+    this.todoService.onChangeModif(i);
+  }
+
+  onView(id: number) {
+    this.route.navigate(["single-todo", id]);
   }
 }
